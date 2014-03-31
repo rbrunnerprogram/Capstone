@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApplication1", "WindowsFormsApplication1\WindowsFormsApplication1.csproj", "{C52A99E9-D49D-4AEE-8A59-49AF4DB7FACB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C52A99E9-D49D-4AEE-8A59-49AF4DB7FACB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52A99E9-D49D-4AEE-8A59-49AF4DB7FACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52A99E9-D49D-4AEE-8A59-49AF4DB7FACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52A99E9-D49D-4AEE-8A59-49AF4DB7FACB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
