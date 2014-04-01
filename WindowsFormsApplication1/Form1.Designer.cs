@@ -61,9 +61,7 @@
             // 
             // scheduleGrid
             // 
-            this.scheduleGrid.AllowDrop = true;
             this.scheduleGrid.AutoScroll = true;
-            this.scheduleGrid.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.scheduleGrid.ColumnCount = 8;
             this.scheduleGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.scheduleGrid.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 14.28571F));
@@ -135,14 +133,12 @@
             this.scheduleGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.scheduleGrid.Size = new System.Drawing.Size(445, 339);
             this.scheduleGrid.TabIndex = 0;
-            this.scheduleGrid.DragDrop += new System.Windows.Forms.DragEventHandler(this.scheduleGrid_DragDrop);
-            this.scheduleGrid.DragEnter += new System.Windows.Forms.DragEventHandler(this.scheduleGrid_DragEnter);
             // 
             // Monday
             // 
             this.Monday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Monday.AutoSize = true;
-            this.Monday.Location = new System.Drawing.Point(86, 4);
+            this.Monday.Location = new System.Drawing.Point(85, 3);
             this.Monday.Name = "Monday";
             this.Monday.Size = new System.Drawing.Size(31, 13);
             this.Monday.TabIndex = 0;
@@ -152,7 +148,7 @@
             // 
             this.Tuesday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Tuesday.AutoSize = true;
-            this.Tuesday.Location = new System.Drawing.Point(137, 4);
+            this.Tuesday.Location = new System.Drawing.Point(138, 3);
             this.Tuesday.Name = "Tuesday";
             this.Tuesday.Size = new System.Drawing.Size(29, 13);
             this.Tuesday.TabIndex = 1;
@@ -162,7 +158,7 @@
             // 
             this.Wednesday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Wednesday.AutoSize = true;
-            this.Wednesday.Location = new System.Drawing.Point(185, 4);
+            this.Wednesday.Location = new System.Drawing.Point(188, 3);
             this.Wednesday.Name = "Wednesday";
             this.Wednesday.Size = new System.Drawing.Size(33, 13);
             this.Wednesday.TabIndex = 2;
@@ -172,7 +168,7 @@
             // 
             this.Thursday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Thursday.AutoSize = true;
-            this.Thursday.Location = new System.Drawing.Point(237, 4);
+            this.Thursday.Location = new System.Drawing.Point(242, 3);
             this.Thursday.Name = "Thursday";
             this.Thursday.Size = new System.Drawing.Size(29, 13);
             this.Thursday.TabIndex = 3;
@@ -183,7 +179,7 @@
             this.Friday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Friday.AutoSize = true;
             this.Friday.Cursor = System.Windows.Forms.Cursors.Default;
-            this.Friday.Location = new System.Drawing.Point(291, 4);
+            this.Friday.Location = new System.Drawing.Point(298, 3);
             this.Friday.Name = "Friday";
             this.Friday.Size = new System.Drawing.Size(21, 13);
             this.Friday.TabIndex = 4;
@@ -193,7 +189,7 @@
             // 
             this.Saturday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Saturday.AutoSize = true;
-            this.Saturday.Location = new System.Drawing.Point(338, 4);
+            this.Saturday.Location = new System.Drawing.Point(348, 3);
             this.Saturday.Name = "Saturday";
             this.Saturday.Size = new System.Drawing.Size(26, 13);
             this.Saturday.TabIndex = 5;
@@ -203,7 +199,7 @@
             // 
             this.Sunday.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.Sunday.AutoSize = true;
-            this.Sunday.Location = new System.Drawing.Point(390, 4);
+            this.Sunday.Location = new System.Drawing.Point(401, 3);
             this.Sunday.Name = "Sunday";
             this.Sunday.Size = new System.Drawing.Size(29, 13);
             this.Sunday.TabIndex = 6;

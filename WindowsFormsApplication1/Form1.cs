@@ -11,16 +11,41 @@ using MySql.Data.MySqlClient;
 
 namespace WindowsFormsApplication1
 {
+
     public partial class Form1 : Form
     {
 
         static string connString = "Server=mysql.aldpesiupui.dreamhosters.com;Port=3306;Database=capstone_brunner2;Uid=programaster;password=programaster123;";
+        private Color labelColor;
+        private Label[] labelList= new Label[329];
+
 
         public Form1()
         {
             InitializeComponent();
             createEmployeeList();
             createScheduleGrid();
+            labelColor = Color.White;
+        }
+
+        private void setLabels(Label currLabel, int labelNum)
+        {
+            labelList[labelNum] = currLabel;
+        }
+
+        private Label getLabels(int labelNum)
+        {
+            return labelList[labelNum];
+        }
+
+        private void setColor(Color currColor)
+        {
+            labelColor = currColor;
+        }
+
+        private Color getColor()
+        {
+            return labelColor;
         }
 
         private void createEmployeeList()
@@ -185,6 +210,22 @@ namespace WindowsFormsApplication1
                 SpaceCounter++;
                 timeStamp = "";
             }
+
+            for (int rowCount = 1; rowCount <= scheduleGrid.RowCount; rowCount++)
+            {
+                for (int colCount = 1; colCount < scheduleGrid.ColumnCount; colCount++)
+                {
+                    Label cellLabel = new Label();
+                    cellLabel.BackColor = Color.White;
+                    cellLabel.AllowDrop = true;
+                    cellLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
+                    cellLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                    scheduleGrid.Controls.Add(cellLabel, colCount, rowCount);
+                    cellLabel.DragEnter += new DragEventHandler(scheduleGrid_DragEnter);
+                    cellLabel.DragDrop += new DragEventHandler(scheduleGrid_DragDrop);
+                    cellLabel.DragLeave += new EventHandler(scheduleGrid_DragLeave);
+                }
+            }
         }
 
         private void Form1_SizeChanged(object sender, System.EventArgs e)
@@ -230,34 +271,32 @@ namespace WindowsFormsApplication1
         private void labelClick(object sender, MouseEventArgs e)
         {
             Label dragLabel = (Label)sender;
-            dragLabel.DoDragDrop(dragLabel.BackColor, DragDropEffects.Move);
+            dragLabel.DoDragDrop(dragLabel, DragDropEffects.Move);
         }
 
         private void scheduleGrid_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = e.AllowedEffect;
+            Label currentLabel = (Label)sender;
+            setColor(currentLabel.BackColor);
+            currentLabel.BackColor = Color.Cyan;
         }
 
         private void scheduleGrid_DragDrop(object sender, DragEventArgs e)
         {
-            int columnPlaced = 1;
-            int rowPlaced = 1;
-            Label cellLabel = new Label();
-            cellLabel.AutoSize = true;
-            Color myColor = (Color)e.Data.GetData(typeof(Color));
-            cellLabel.BackColor = myColor;
-            cellLabel.Text = "Hello World";
-            //Console.WriteLine();
-            Point screenTestPoint = new Point(e.X, e.Y);
-            Point testPoint = scheduleGrid.PointToClient(new Point(e.X, e.Y));
+            Label currentLabel = (Label)sender;
+            Label myLabel = (Label)e.Data.GetData(typeof(Label));
+            currentLabel.BackColor = myLabel.BackColor;
+            currentLabel.Text = myLabel.Text;
+            Point position = new Point(scheduleGrid.GetCellPosition(currentLabel).Column, scheduleGrid.GetCellPosition(currentLabel).Row);
+            setLabels(currentLabel, position.X * position.Y);
+        }
 
-            TableLayoutPanel tempPanel = (TableLayoutPanel)sender;
-            int scrollAmount = (tempPanel.VerticalScroll.Value / tempPanel.VerticalScroll.Maximum)*100;
-
-            rowPlaced = (int)testPoint.Y / 20;
-            Console.WriteLine(tempPanel.VerticalScroll.Maximum);
+        private void scheduleGrid_DragLeave(object sender, EventArgs e)
+        {
+            Label currentLabel = (Label)sender;
+            currentLabel.BackColor = getColor();
             
-            //scheduleGrid.Controls.Add(cellLabel, 2, 2);
         }
 
         
