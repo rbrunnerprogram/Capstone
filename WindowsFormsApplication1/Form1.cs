@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
+using System.Security.Cryptography;
+using System.IO;
 
 namespace WindowsFormsApplication1
 {
@@ -17,15 +19,39 @@ namespace WindowsFormsApplication1
 
         static string connString = "Server=mysql.aldpesiupui.dreamhosters.com;Port=3306;Database=capstone_brunner2;Uid=programaster;password=programaster123;";
         private Color labelColor;
-        private Label[] labelList= new Label[329];
+        private Label[] labelList= new Label[336];
+        private bool loginBool = false;
+        private const string ENCRYPTION_KEY = "ENmtH6kEeV1.I";
+        //Hello World is encryption key string
 
-
+        private readonly static byte[] SALT = Encoding.ASCII.GetBytes(ENCRYPTION_KEY);
+        private readonly byte[] key;
+        private readonly byte[] iv;
+        private readonly Rfc2898DeriveBytes keyGenerator;
+        
         public Form1()
         {
-            InitializeComponent();
-            createEmployeeList();
-            createScheduleGrid();
+            keyGenerator = new Rfc2898DeriveBytes(ENCRYPTION_KEY, SALT);
+            key = keyGenerator.GetBytes(32);
+            iv = keyGenerator.GetBytes(16);
+
+            InitializeComponent(loginBool);
+            //if (loginBool)
+            //{
+                createEmployeeList();
+                createScheduleGrid();
+            //}
             labelColor = Color.White;
+        }
+
+        private void setLoginBool(bool loginStatus)
+        {
+            loginBool = loginStatus;
+        }
+
+        private bool getLoginBool()
+        {
+            return loginBool;
         }
 
         private void setLabels(Label currLabel, int labelNum)
@@ -143,6 +169,7 @@ namespace WindowsFormsApplication1
             bool DoThis = false;
             string timeStamp = "";
             int SpaceCounter = 1;
+            int listCounter = 0;
 
             for (int counter = 0; counter < 24; counter++)
             {
@@ -216,16 +243,22 @@ namespace WindowsFormsApplication1
                 for (int colCount = 1; colCount < scheduleGrid.ColumnCount; colCount++)
                 {
                     Label cellLabel = new Label();
+                    cellLabel.AutoSize = false;
                     cellLabel.BackColor = Color.White;
                     cellLabel.AllowDrop = true;
+                    cellLabel.Name = "cellLabel" + listCounter;
                     cellLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
                     cellLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
                     scheduleGrid.Controls.Add(cellLabel, colCount, rowCount);
                     cellLabel.DragEnter += new DragEventHandler(scheduleGrid_DragEnter);
                     cellLabel.DragDrop += new DragEventHandler(scheduleGrid_DragDrop);
                     cellLabel.DragLeave += new EventHandler(scheduleGrid_DragLeave);
+                    listCounter++;
                 }
             }
+            overallPanel.Visible = false;
+            scheduleGrid.Visible = false;
+            employeeList.Visible = false;
         }
 
         private void Form1_SizeChanged(object sender, System.EventArgs e)
@@ -289,7 +322,6 @@ namespace WindowsFormsApplication1
             currentLabel.BackColor = myLabel.BackColor;
             currentLabel.Text = myLabel.Text;
             Point position = new Point(scheduleGrid.GetCellPosition(currentLabel).Column, scheduleGrid.GetCellPosition(currentLabel).Row);
-            setLabels(currentLabel, position.X * position.Y);
         }
 
         private void scheduleGrid_DragLeave(object sender, EventArgs e)
@@ -297,6 +329,76 @@ namespace WindowsFormsApplication1
             Label currentLabel = (Label)sender;
             currentLabel.BackColor = getColor();
             
+        }
+
+        private string EncryptPassword(string textBoxPassword)
+        {
+            RijndaelManaged rijndaelCipher = new RijndaelManaged { Key = key, IV = iv };
+            byte[] plainText = Encoding.Unicode.GetBytes(textBoxPassword);
+
+            using (ICryptoTransform encryptor = rijndaelCipher.CreateEncryptor())
+            {
+                using (MemoryStream memoryStream = new MemoryStream())
+                {
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
+                    {
+                        cryptoStream.Write(plainText, 0, plainText.Length);
+                        cryptoStream.FlushFinalBlock();
+                        return Convert.ToBase64String(memoryStream.ToArray());
+                    }
+                }
+            }
+        }
+
+        void loginButton_Click(object sender, System.EventArgs e)
+        {
+            setLoginBool(true);
+
+            loginButton.Visible = false;
+            loginLabel.Visible = false;
+            loginPassword.Visible = false;
+            loginUserName.Visible = false;
+
+            employeeList.Visible = true;
+            scheduleGrid.Visible = true;
+
+            //testString = String.Join("", testString.Split(';'));
+
+            MySqlConnection conn = new MySqlConnection(connString);
+
+            try
+            {
+                conn.Open();
+            }
+            catch (MySqlException ex)
+            {
+
+                //Console.WriteLine(ex.Message);
+
+                switch (ex.Number)
+                {
+                    case 1042:
+                        MessageBox.Show("Unable to Connect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    case 0:
+                        MessageBox.Show("Access Denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            finally
+            {
+                //conn.Close();
+            }
+
+            //MySqlCommand cmd = conn.CreateCommand();
+            //cmd.CommandText = "Update Employee SET username = '" + loginUserName.Text + "', password = '" + EncryptPassword(loginPassword.Text) + "' WHERE lName = 'Ragsdell'";
+            //cmd.ExecuteNonQuery();
+
+            conn.Close();
+
+            //throw new System.NotImplementedException();
         }
 
         
