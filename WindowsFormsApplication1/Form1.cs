@@ -28,6 +28,8 @@ namespace WindowsFormsApplication1
         private readonly byte[] key;
         private readonly byte[] iv;
         private readonly Rfc2898DeriveBytes keyGenerator;
+
+        Form2 addEmployeeForm = new Form2();
         
         public Form1()
         {
@@ -35,12 +37,10 @@ namespace WindowsFormsApplication1
             key = keyGenerator.GetBytes(32);
             iv = keyGenerator.GetBytes(16);
 
-            InitializeComponent(loginBool);
-            //if (loginBool)
-            //{
-                createEmployeeList();
-                createScheduleGrid();
-            //}
+            InitializeComponent();
+            dayLabels.Visible = false;
+            createEmployeeList();
+            createScheduleGrid();
             labelColor = Color.White;
         }
 
@@ -76,6 +76,10 @@ namespace WindowsFormsApplication1
 
         private void createEmployeeList()
         {
+            loginUserName.Location = new System.Drawing.Point((this.Width / 2), 50);
+            loginPassword.Location = new System.Drawing.Point((this.Width / 2), 75);
+            userLabel.Location = new System.Drawing.Point((this.Width / 2) - (this.Width / 10), 53);
+            passLabel.Location = new System.Drawing.Point((this.Width / 2) - (this.Width / 10), 78);
             int labelXLocation = 0;
             int labelYLocation = 0;
             int labelHeight = 50;
@@ -256,15 +260,20 @@ namespace WindowsFormsApplication1
                     listCounter++;
                 }
             }
+
+            int[] colWidths = scheduleGrid.GetColumnWidths();
+            dayLabels.Width = scheduleGrid.Width-colWidths[0]-20;
+            dayLabels.Location = new System.Drawing.Point(scheduleGrid.Location.X+colWidths[0] , scheduleGrid.Location.Y-10);
+            dayLabels.BringToFront();
             overallPanel.Visible = false;
             scheduleGrid.Visible = false;
             employeeList.Visible = false;
+            menuStrip1.Visible = false;
         }
 
         private void Form1_SizeChanged(object sender, System.EventArgs e)
         {
             Control control = (Control)sender;
-            
             employeeList.Location = new Point(control.Width - 250, 50);
             employeeList.Height = control.Height - 100;
             if (control.Height - 100 < 960)
@@ -276,6 +285,7 @@ namespace WindowsFormsApplication1
                 scheduleGrid.Height = 960;
             }
             scheduleGrid.Width = control.Width - 270;
+            dayLabels.Width = scheduleGrid.Width - 95;
             if (control.Width < 925)
             {
                 Monday.Text = "Mon.";
@@ -352,17 +362,7 @@ namespace WindowsFormsApplication1
 
         void loginButton_Click(object sender, System.EventArgs e)
         {
-            setLoginBool(true);
-
-            loginButton.Visible = false;
-            loginLabel.Visible = false;
-            loginPassword.Visible = false;
-            loginUserName.Visible = false;
-
-            employeeList.Visible = true;
-            scheduleGrid.Visible = true;
-
-            //testString = String.Join("", testString.Split(';'));
+            //setLoginBool(true);
 
             MySqlConnection conn = new MySqlConnection(connString);
 
@@ -392,13 +392,43 @@ namespace WindowsFormsApplication1
                 //conn.Close();
             }
 
-            //MySqlCommand cmd = conn.CreateCommand();
-            //cmd.CommandText = "Update Employee SET username = '" + loginUserName.Text + "', password = '" + EncryptPassword(loginPassword.Text) + "' WHERE lName = 'Ragsdell'";
+            MySqlCommand cmd = conn.CreateCommand();
+            MySqlParameter[] myparam = new MySqlParameter[2];
+
+            cmd.CommandText = "SELECT COUNT(*) FROM Employee WHERE username = @userName AND password = @pass";
+            cmd.Parameters.AddWithValue("@userName", loginUserName.Text);
+            cmd.Parameters.AddWithValue("@pass", EncryptPassword(loginPassword.Text));
+
+            Int64 queryCount = (Int64)cmd.ExecuteScalar();
+
+            //if (queryCount >= 1)
+           // {
+                loginButton.Visible = false;
+                loginLabel.Visible = false;
+                loginPassword.Visible = false;
+                loginUserName.Visible = false;
+                userLabel.Visible = false;
+                passLabel.Visible = false;
+
+                employeeList.Visible = true;
+                scheduleGrid.Visible = true;
+                dayLabels.Visible = true;
+                menuStrip1.Visible = true;
+                dayLabels.BringToFront();
+           // }
+            
+
+
             //cmd.ExecuteNonQuery();
 
             conn.Close();
 
             //throw new System.NotImplementedException();
+        }
+
+        private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addEmployeeForm.Show();
         }
 
         
