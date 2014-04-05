@@ -14,6 +14,8 @@ namespace WindowsFormsApplication1
     public partial class Form2 : Form
     {
         static string connString = "Server=mysql.aldpesiupui.dreamhosters.com;Port=3306;Database=capstone_brunner2;Uid=programaster;password=programaster123;";
+        private bool editButton = false;
+
 
         public Form2()
         {
@@ -165,6 +167,94 @@ namespace WindowsFormsApplication1
                 criticalBox.Checked = false;
             }
             
+        }
+
+        public void checkIfEditPressed(bool editStatus)
+        {
+            Dictionary<string, string> employeeList = new Dictionary<string, string>();
+            MySqlConnection conn = new MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "SELECT ID, fName, lName FROM Employee ORDER BY lName";
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    string empID = reader["ID"].ToString();
+                    string empName = reader["lName"].ToString() + ", " + reader["fName"].ToString();
+                    employeeList.Add(empName, empID);
+                }
+            }
+            catch (MySqlException ex)
+            {
+                //Console.WriteLine(ex.Message);
+
+                switch (ex.Number)
+                {
+                    case 1042:
+                        MessageBox.Show("Unable to Connect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    case 0:
+                        MessageBox.Show("Access Denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            empChoiceBox.DataSource = new BindingSource(employeeList, null);
+            empChoiceBox.DisplayMember = "Key";
+            empChoiceBox.ValueMember = "Value";
+
+            editButton = editStatus;
+            EmployeefName.Location = new System.Drawing.Point(25, 83);
+            EmployeelName.Location = new System.Drawing.Point(25, 106);
+            firstName.Location = new System.Drawing.Point(93, 80);
+            lastName.Location = new System.Drawing.Point(93, 106);
+            UserNameLabel.Location = new System.Drawing.Point(25, 135);
+            usernameBox.Location = new System.Drawing.Point(93, 132);
+            EmployeePasswordLabel.Location = new System.Drawing.Point(25, 162);
+            textBox1.Location = new System.Drawing.Point(93, 159);
+            criticalBox.Location = new System.Drawing.Point(93, 240);
+            departmentBox.Location = new System.Drawing.Point(93, 185);
+            deparmentLabel.Location = new System.Drawing.Point(25, 188);
+            jobTitleBox.Location = new System.Drawing.Point(93, 213);
+            jobLabel.Location = new System.Drawing.Point(25, 216);
+            addEmployLabel.Text = "Edit an Employee";
+            chooseEmpLabel.Visible = true;
+            empChoiceBox.Visible = true;
+        }
+
+        public void checkIfAddPressed(bool editStatus)
+        {
+            editButton = editStatus;
+            EmployeefName.Location = new System.Drawing.Point(25, 53);
+            EmployeelName.Location = new System.Drawing.Point(25, 76);
+            firstName.Location = new System.Drawing.Point(93, 50);
+            lastName.Location = new System.Drawing.Point(93, 76);
+            UserNameLabel.Location = new System.Drawing.Point(25, 105);
+            usernameBox.Location = new System.Drawing.Point(93, 102);
+            EmployeePasswordLabel.Location = new System.Drawing.Point(25, 132);
+            textBox1.Location = new System.Drawing.Point(93, 129);
+            criticalBox.Location = new System.Drawing.Point(93, 210);
+            departmentBox.Location = new System.Drawing.Point(93, 155);
+            deparmentLabel.Location = new System.Drawing.Point(25, 158);
+            jobTitleBox.Location = new System.Drawing.Point(93, 183);
+            jobLabel.Location = new System.Drawing.Point(25, 186);
+            addEmployLabel.Text = "Add an Employee";
+            chooseEmpLabel.Visible = false;
+            empChoiceBox.Visible = false;
+        }
+
+        private void empChoiceBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
 
         

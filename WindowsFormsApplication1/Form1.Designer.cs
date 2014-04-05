@@ -34,6 +34,8 @@
             this.loginButton = new System.Windows.Forms.Button();
             this.employeeList = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.managerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleGrid = new System.Windows.Forms.TableLayoutPanel();
             this.Monday = new System.Windows.Forms.Label();
             this.Tuesday = new System.Windows.Forms.Label();
@@ -46,8 +48,7 @@
             this.passLabel = new System.Windows.Forms.Label();
             this.overallPanel = new System.Windows.Forms.Panel();
             this.dayLabels = new System.Windows.Forms.TableLayoutPanel();
-            this.managerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.addEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.dayLabels.SuspendLayout();
             this.SuspendLayout();
@@ -107,6 +108,22 @@
             this.menuStrip1.Size = new System.Drawing.Size(704, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
+            // 
+            // managerToolStripMenuItem
+            // 
+            this.managerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addEmployeeToolStripMenuItem,
+            this.editEmployeeToolStripMenuItem});
+            this.managerToolStripMenuItem.Name = "managerToolStripMenuItem";
+            this.managerToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.managerToolStripMenuItem.Text = "Manager";
+            // 
+            // addEmployeeToolStripMenuItem
+            // 
+            this.addEmployeeToolStripMenuItem.Name = "addEmployeeToolStripMenuItem";
+            this.addEmployeeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addEmployeeToolStripMenuItem.Text = "Add Employee";
+            this.addEmployeeToolStripMenuItem.Click += new System.EventHandler(this.addEmployeeToolStripMenuItem_Click);
             // 
             // scheduleGrid
             // 
@@ -299,20 +316,12 @@
             this.dayLabels.Size = new System.Drawing.Size(354, 22);
             this.dayLabels.TabIndex = 0;
             // 
-            // managerToolStripMenuItem
+            // editEmployeeToolStripMenuItem
             // 
-            this.managerToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addEmployeeToolStripMenuItem});
-            this.managerToolStripMenuItem.Name = "managerToolStripMenuItem";
-            this.managerToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.managerToolStripMenuItem.Text = "Manager";
-            // 
-            // addEmployeeToolStripMenuItem
-            // 
-            this.addEmployeeToolStripMenuItem.Name = "addEmployeeToolStripMenuItem";
-            this.addEmployeeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.addEmployeeToolStripMenuItem.Text = "Add Employee";
-            this.addEmployeeToolStripMenuItem.Click += new System.EventHandler(this.addEmployeeToolStripMenuItem_Click);
+            this.editEmployeeToolStripMenuItem.Name = "editEmployeeToolStripMenuItem";
+            this.editEmployeeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.editEmployeeToolStripMenuItem.Text = "Edit Employee";
+            this.editEmployeeToolStripMenuItem.Click += new System.EventHandler(this.editEmployeeToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -366,7 +375,8 @@
         private System.Windows.Forms.Button loginButton;
         private System.Windows.Forms.TableLayoutPanel dayLabels;
         private System.Windows.Forms.ToolStripMenuItem managerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem addEmployeeToolStripMenuItem; 
+        private System.Windows.Forms.ToolStripMenuItem addEmployeeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem editEmployeeToolStripMenuItem; 
 
 
     }

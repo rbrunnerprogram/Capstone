@@ -485,6 +485,13 @@ namespace WindowsFormsApplication1
         private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             addEmployeeForm.Show();
+            addEmployeeForm.checkIfAddPressed(false);
+        }
+
+        private void editEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            addEmployeeForm.Show();
+            addEmployeeForm.checkIfEditPressed(true);
         }
 
         

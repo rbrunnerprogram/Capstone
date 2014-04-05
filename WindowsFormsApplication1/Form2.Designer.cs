@@ -44,8 +44,10 @@
             this.jobLabel = new System.Windows.Forms.Label();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.label1 = new System.Windows.Forms.Label();
+            this.permLabel = new System.Windows.Forms.Label();
             this.addEmployeeBox = new System.Windows.Forms.CheckBox();
+            this.empChoiceBox = new System.Windows.Forms.ComboBox();
+            this.chooseEmpLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // EmployeefName
@@ -192,15 +194,15 @@
             this.lineShape1.Y1 = 11;
             this.lineShape1.Y2 = 246;
             // 
-            // label1
+            // permLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.label1.Location = new System.Drawing.Point(303, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(88, 17);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Permissions:";
+            this.permLabel.AutoSize = true;
+            this.permLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.permLabel.Location = new System.Drawing.Point(303, 36);
+            this.permLabel.Name = "permLabel";
+            this.permLabel.Size = new System.Drawing.Size(88, 17);
+            this.permLabel.TabIndex = 15;
+            this.permLabel.Text = "Permissions:";
             // 
             // addEmployeeBox
             // 
@@ -212,13 +214,35 @@
             this.addEmployeeBox.Text = "Can Add Employees";
             this.addEmployeeBox.UseVisualStyleBackColor = true;
             // 
+            // empChoiceBox
+            // 
+            this.empChoiceBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.empChoiceBox.FormattingEnabled = true;
+            this.empChoiceBox.Location = new System.Drawing.Point(120, 49);
+            this.empChoiceBox.Name = "empChoiceBox";
+            this.empChoiceBox.Size = new System.Drawing.Size(121, 21);
+            this.empChoiceBox.TabIndex = 10;
+            this.empChoiceBox.Visible = false;
+            this.empChoiceBox.SelectedIndexChanged += new System.EventHandler(this.empChoiceBox_SelectedIndexChanged);
+            // 
+            // chooseEmpLabel
+            // 
+            this.chooseEmpLabel.AutoSize = true;
+            this.chooseEmpLabel.Location = new System.Drawing.Point(12, 52);
+            this.chooseEmpLabel.Name = "chooseEmpLabel";
+            this.chooseEmpLabel.Size = new System.Drawing.Size(95, 13);
+            this.chooseEmpLabel.TabIndex = 17;
+            this.chooseEmpLabel.Text = "Choose Employee:";
+            this.chooseEmpLabel.Visible = false;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 261);
+            this.Controls.Add(this.chooseEmpLabel);
             this.Controls.Add(this.addEmployeeBox);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.permLabel);
             this.Controls.Add(this.jobLabel);
             this.Controls.Add(this.jobTitleBox);
             this.Controls.Add(this.deparmentLabel);
@@ -233,6 +257,7 @@
             this.Controls.Add(this.firstName);
             this.Controls.Add(this.EmployeelName);
             this.Controls.Add(this.EmployeefName);
+            this.Controls.Add(this.empChoiceBox);
             this.Controls.Add(this.shapeContainer1);
             this.Name = "Form2";
             this.Text = "Form2";
@@ -257,10 +282,12 @@
         private System.Windows.Forms.ComboBox departmentBox;
         private System.Windows.Forms.Label deparmentLabel;
         private System.Windows.Forms.ComboBox jobTitleBox;
+        private System.Windows.Forms.ComboBox empChoiceBox;
         private System.Windows.Forms.Label jobLabel;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label permLabel;
         private System.Windows.Forms.CheckBox addEmployeeBox;
+        private System.Windows.Forms.Label chooseEmpLabel;
     }
 }
