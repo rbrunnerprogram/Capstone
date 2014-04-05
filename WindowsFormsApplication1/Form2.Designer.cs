@@ -42,6 +42,10 @@
             this.deparmentLabel = new System.Windows.Forms.Label();
             this.jobTitleBox = new System.Windows.Forms.ComboBox();
             this.jobLabel = new System.Windows.Forms.Label();
+            this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
+            this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.label1 = new System.Windows.Forms.Label();
+            this.addEmployeeBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // EmployeefName
@@ -167,11 +171,54 @@
             this.jobLabel.TabIndex = 13;
             this.jobLabel.Text = "Job Title:";
             // 
+            // shapeContainer1
+            // 
+            this.shapeContainer1.Location = new System.Drawing.Point(0, 0);
+            this.shapeContainer1.Margin = new System.Windows.Forms.Padding(0);
+            this.shapeContainer1.Name = "shapeContainer1";
+            this.shapeContainer1.Shapes.AddRange(new Microsoft.VisualBasic.PowerPacks.Shape[] {
+            this.lineShape1});
+            this.shapeContainer1.Size = new System.Drawing.Size(459, 261);
+            this.shapeContainer1.TabIndex = 14;
+            this.shapeContainer1.TabStop = false;
+            // 
+            // lineShape1
+            // 
+            this.lineShape1.BorderColor = System.Drawing.SystemColors.ButtonShadow;
+            this.lineShape1.BorderWidth = 2;
+            this.lineShape1.Name = "lineShape1";
+            this.lineShape1.X1 = 280;
+            this.lineShape1.X2 = 280;
+            this.lineShape1.Y1 = 11;
+            this.lineShape1.Y2 = 246;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.label1.Location = new System.Drawing.Point(303, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(88, 17);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Permissions:";
+            // 
+            // addEmployeeBox
+            // 
+            this.addEmployeeBox.AutoSize = true;
+            this.addEmployeeBox.Location = new System.Drawing.Point(306, 56);
+            this.addEmployeeBox.Name = "addEmployeeBox";
+            this.addEmployeeBox.Size = new System.Drawing.Size(121, 17);
+            this.addEmployeeBox.TabIndex = 16;
+            this.addEmployeeBox.Text = "Can Add Employees";
+            this.addEmployeeBox.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(459, 261);
+            this.Controls.Add(this.addEmployeeBox);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.jobLabel);
             this.Controls.Add(this.jobTitleBox);
             this.Controls.Add(this.deparmentLabel);
@@ -186,6 +233,7 @@
             this.Controls.Add(this.firstName);
             this.Controls.Add(this.EmployeelName);
             this.Controls.Add(this.EmployeefName);
+            this.Controls.Add(this.shapeContainer1);
             this.Name = "Form2";
             this.Text = "Form2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
@@ -210,5 +258,9 @@
         private System.Windows.Forms.Label deparmentLabel;
         private System.Windows.Forms.ComboBox jobTitleBox;
         private System.Windows.Forms.Label jobLabel;
+        private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
+        private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox addEmployeeBox;
     }
 }

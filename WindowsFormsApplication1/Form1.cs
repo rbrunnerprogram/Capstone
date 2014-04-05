@@ -363,12 +363,30 @@ namespace WindowsFormsApplication1
         void loginButton_Click(object sender, System.EventArgs e)
         {
             //setLoginBool(true);
+            int queryCount = 0;
+            int userID = -1;
+
+            //Permission Booleans
+            bool canAddEmployees = false;
 
             MySqlConnection conn = new MySqlConnection(connString);
 
             try
             {
                 conn.Open();
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "SELECT ID FROM Employee WHERE username = @userName AND password = @pass";
+                cmd.Parameters.AddWithValue("@userName", loginUserName.Text);
+                cmd.Parameters.AddWithValue("@pass", EncryptPassword(loginPassword.Text));
+
+                MySqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    queryCount++;
+                    userID = (int)reader["ID"];
+                }
+                
             }
             catch (MySqlException ex)
             {
@@ -389,20 +407,12 @@ namespace WindowsFormsApplication1
             }
             finally
             {
-                //conn.Close();
+                conn.Close();
             }
 
-            MySqlCommand cmd = conn.CreateCommand();
-            MySqlParameter[] myparam = new MySqlParameter[2];
-
-            cmd.CommandText = "SELECT COUNT(*) FROM Employee WHERE username = @userName AND password = @pass";
-            cmd.Parameters.AddWithValue("@userName", loginUserName.Text);
-            cmd.Parameters.AddWithValue("@pass", EncryptPassword(loginPassword.Text));
-
-            Int64 queryCount = (Int64)cmd.ExecuteScalar();
-
-            //if (queryCount >= 1)
-           // {
+            
+           if (queryCount >= 1)
+           {
                 loginButton.Visible = false;
                 loginLabel.Visible = false;
                 loginPassword.Visible = false;
@@ -413,15 +423,61 @@ namespace WindowsFormsApplication1
                 employeeList.Visible = true;
                 scheduleGrid.Visible = true;
                 dayLabels.Visible = true;
-                menuStrip1.Visible = true;
+
+                try
+                {
+                    conn.Open();
+                    MySqlCommand cmd = conn.CreateCommand();
+
+                    cmd.CommandText = "SELECT Employee.ID, Employee.fName, PermAssignments.permID FROM Employee INNER JOIN PermAssignments ON Employee.ID=PermAssignments.empID WHERE Employee.ID = @useID";
+                    cmd.Parameters.AddWithValue("@useID", userID);
+                     MySqlDataReader reader = cmd.ExecuteReader();
+                     while (reader.Read())
+                     {
+                         switch ((int)reader["permID"])
+                         {
+                             case 1:
+                                 canAddEmployees = true;
+                                 break;
+                             default:
+                                 break;
+                         }
+                         
+                     }
+
+                }
+                catch (MySqlException ex)
+                {
+
+                    //Console.WriteLine(ex.Message);
+
+                    switch (ex.Number)
+                    {
+                        case 1042:
+                            MessageBox.Show("Unable to Connect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            break;
+                        case 0:
+                            MessageBox.Show("Access Denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+
+
+                if (canAddEmployees)
+                {
+                    menuStrip1.Visible = true;
+                }
+                
                 dayLabels.BringToFront();
-           // }
-            
+           }
 
-
-            //cmd.ExecuteNonQuery();
-
-            conn.Close();
 
             //throw new System.NotImplementedException();
         }
