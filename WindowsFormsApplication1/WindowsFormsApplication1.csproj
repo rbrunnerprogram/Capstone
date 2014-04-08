@@ -53,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="labelWithValue.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="labelWithValue.Designer.cs">
+      <DependentUpon>labelWithValue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

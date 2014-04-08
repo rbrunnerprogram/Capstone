@@ -35,7 +35,7 @@
             this.UserNameLabel = new System.Windows.Forms.Label();
             this.usernameBox = new System.Windows.Forms.TextBox();
             this.EmployeePasswordLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.passBox = new System.Windows.Forms.TextBox();
             this.addEmployLabel = new System.Windows.Forms.Label();
             this.criticalBox = new System.Windows.Forms.CheckBox();
             this.departmentBox = new System.Windows.Forms.ComboBox();
@@ -48,6 +48,8 @@
             this.addEmployeeBox = new System.Windows.Forms.CheckBox();
             this.empChoiceBox = new System.Windows.Forms.ComboBox();
             this.chooseEmpLabel = new System.Windows.Forms.Label();
+            this.editEmp = new System.Windows.Forms.CheckBox();
+            this.canChangePerm = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // EmployeefName
@@ -107,12 +109,12 @@
             this.EmployeePasswordLabel.TabIndex = 6;
             this.EmployeePasswordLabel.Text = "Password:";
             // 
-            // textBox1
+            // passBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(93, 129);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(163, 20);
-            this.textBox1.TabIndex = 7;
+            this.passBox.Location = new System.Drawing.Point(93, 129);
+            this.passBox.Name = "passBox";
+            this.passBox.Size = new System.Drawing.Size(163, 20);
+            this.passBox.TabIndex = 7;
             // 
             // addEmployLabel
             // 
@@ -235,11 +237,33 @@
             this.chooseEmpLabel.Text = "Choose Employee:";
             this.chooseEmpLabel.Visible = false;
             // 
+            // editEmp
+            // 
+            this.editEmp.AutoSize = true;
+            this.editEmp.Location = new System.Drawing.Point(306, 79);
+            this.editEmp.Name = "editEmp";
+            this.editEmp.Size = new System.Drawing.Size(115, 17);
+            this.editEmp.TabIndex = 18;
+            this.editEmp.Text = "Can Edit Employee";
+            this.editEmp.UseVisualStyleBackColor = true;
+            // 
+            // canChangePerm
+            // 
+            this.canChangePerm.AutoSize = true;
+            this.canChangePerm.Location = new System.Drawing.Point(306, 102);
+            this.canChangePerm.Name = "canChangePerm";
+            this.canChangePerm.Size = new System.Drawing.Size(143, 17);
+            this.canChangePerm.TabIndex = 19;
+            this.canChangePerm.Text = "Can Change Permissions";
+            this.canChangePerm.UseVisualStyleBackColor = true;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(459, 261);
+            this.Controls.Add(this.canChangePerm);
+            this.Controls.Add(this.editEmp);
             this.Controls.Add(this.chooseEmpLabel);
             this.Controls.Add(this.addEmployeeBox);
             this.Controls.Add(this.permLabel);
@@ -249,7 +273,7 @@
             this.Controls.Add(this.departmentBox);
             this.Controls.Add(this.criticalBox);
             this.Controls.Add(this.addEmployLabel);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.passBox);
             this.Controls.Add(this.EmployeePasswordLabel);
             this.Controls.Add(this.usernameBox);
             this.Controls.Add(this.UserNameLabel);
@@ -276,7 +300,7 @@
         private System.Windows.Forms.Label UserNameLabel;
         private System.Windows.Forms.TextBox usernameBox;
         private System.Windows.Forms.Label EmployeePasswordLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox passBox;
         private System.Windows.Forms.Label addEmployLabel;
         private System.Windows.Forms.CheckBox criticalBox;
         private System.Windows.Forms.ComboBox departmentBox;
@@ -289,5 +313,7 @@
         private System.Windows.Forms.Label permLabel;
         private System.Windows.Forms.CheckBox addEmployeeBox;
         private System.Windows.Forms.Label chooseEmpLabel;
+        private System.Windows.Forms.CheckBox editEmp;
+        private System.Windows.Forms.CheckBox canChangePerm;
     }
 }

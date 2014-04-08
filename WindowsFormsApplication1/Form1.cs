@@ -13,13 +13,12 @@ using System.IO;
 
 namespace WindowsFormsApplication1
 {
-
     public partial class Form1 : Form
     {
 
         static string connString = "Server=mysql.aldpesiupui.dreamhosters.com;Port=3306;Database=capstone_brunner2;Uid=programaster;password=programaster123;";
         private Color labelColor;
-        private Label[] labelList= new Label[336];
+        private labelWithValue[] labelList= new labelWithValue[336];
         private bool loginBool = false;
         private const string ENCRYPTION_KEY = "ENmtH6kEeV1.I";
         //Hello World is encryption key string
@@ -54,12 +53,12 @@ namespace WindowsFormsApplication1
             return loginBool;
         }
 
-        private void setLabels(Label currLabel, int labelNum)
+        private void setLabels(labelWithValue currLabel, int labelNum)
         {
             labelList[labelNum] = currLabel;
         }
 
-        private Label getLabels(int labelNum)
+        private labelWithValue getLabels(int labelNum)
         {
             return labelList[labelNum];
         }
@@ -134,14 +133,16 @@ namespace WindowsFormsApplication1
             }
 
             MySqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = "SELECT fName, lName, jobStatus FROM Employee";
+            cmd.CommandText = "SELECT ID, fName, lName, jobStatus FROM Employee";
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
+                int EmployeeID = (int)reader["ID"];
                 string labelFirstName = reader["fName"].ToString();
                 string labelLastName = reader["lName"].ToString();
                 string isCritical = reader["jobStatus"].ToString();
-                Label testLabel = new Label();
+                labelWithValue testLabel = new labelWithValue();
+                testLabel.setEmpID(EmployeeID);
                 testLabel.Name = labelFirstName+labelLastName;
                 testLabel.Text = labelFirstName + " " + labelLastName;
                 if (reader["jobStatus"].ToString() == "True")
@@ -178,7 +179,7 @@ namespace WindowsFormsApplication1
             for (int counter = 0; counter < 24; counter++)
             {
                 
-                Label timeLabel = new Label();
+                labelWithValue timeLabel = new labelWithValue();
                 timeLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
                 timeLabel.AutoSize = true;
                 timeLabel.TabIndex = 0;
@@ -246,7 +247,7 @@ namespace WindowsFormsApplication1
             {
                 for (int colCount = 1; colCount < scheduleGrid.ColumnCount; colCount++)
                 {
-                    Label cellLabel = new Label();
+                    labelWithValue cellLabel = new labelWithValue();
                     cellLabel.AutoSize = false;
                     cellLabel.BackColor = Color.White;
                     cellLabel.AllowDrop = true;
@@ -257,6 +258,8 @@ namespace WindowsFormsApplication1
                     cellLabel.DragEnter += new DragEventHandler(scheduleGrid_DragEnter);
                     cellLabel.DragDrop += new DragEventHandler(scheduleGrid_DragDrop);
                     cellLabel.DragLeave += new EventHandler(scheduleGrid_DragLeave);
+                    cellLabel.MouseDown += new MouseEventHandler(labelClick);
+                    cellLabel.MouseHover += new EventHandler(label_OnHover);
                     listCounter++;
                 }
             }
@@ -269,6 +272,13 @@ namespace WindowsFormsApplication1
             scheduleGrid.Visible = false;
             employeeList.Visible = false;
             menuStrip1.Visible = false;
+        }
+
+        private void label_OnHover(object sender, EventArgs e)
+        {
+            labelWithValue control = (labelWithValue)sender;
+            popUpInfo.SetToolTip(control, control.getEmployeeList());
+
         }
 
         private void Form1_SizeChanged(object sender, System.EventArgs e)
@@ -313,30 +323,40 @@ namespace WindowsFormsApplication1
         //OnMouseDown event handler for employee list labels
         private void labelClick(object sender, MouseEventArgs e)
         {
-            Label dragLabel = (Label)sender;
+            
+            labelWithValue dragLabel = (labelWithValue)sender;
             dragLabel.DoDragDrop(dragLabel, DragDropEffects.Move);
         }
 
         private void scheduleGrid_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = e.AllowedEffect;
-            Label currentLabel = (Label)sender;
+            labelWithValue currentLabel = (labelWithValue)sender;
             setColor(currentLabel.BackColor);
             currentLabel.BackColor = Color.Cyan;
         }
 
         private void scheduleGrid_DragDrop(object sender, DragEventArgs e)
         {
-            Label currentLabel = (Label)sender;
-            Label myLabel = (Label)e.Data.GetData(typeof(Label));
-            currentLabel.BackColor = myLabel.BackColor;
-            currentLabel.Text = myLabel.Text;
-            Point position = new Point(scheduleGrid.GetCellPosition(currentLabel).Column, scheduleGrid.GetCellPosition(currentLabel).Row);
+            labelWithValue currentLabel = (labelWithValue)sender;
+            labelWithValue myLabel = (labelWithValue)e.Data.GetData(typeof(labelWithValue));
+            
+            if (myLabel.BackColor != Color.Cyan)
+            {
+                currentLabel.addEmployeeToList(myLabel.Text);
+                currentLabel.BackColor = myLabel.BackColor;
+                currentLabel.Text = myLabel.Text;
+                Point position = new Point(scheduleGrid.GetCellPosition(currentLabel).Column, scheduleGrid.GetCellPosition(currentLabel).Row);
+            }
+            if (currentLabel.BackColor == Color.Cyan)
+            {
+                currentLabel.BackColor = getColor();
+            }
         }
 
         private void scheduleGrid_DragLeave(object sender, EventArgs e)
         {
-            Label currentLabel = (Label)sender;
+            labelWithValue currentLabel = (labelWithValue)sender;
             currentLabel.BackColor = getColor();
             
         }
@@ -468,8 +488,6 @@ namespace WindowsFormsApplication1
                     conn.Close();
                 }
 
-
-
                 if (canAddEmployees)
                 {
                     menuStrip1.Visible = true;
@@ -478,8 +496,6 @@ namespace WindowsFormsApplication1
                 dayLabels.BringToFront();
            }
 
-
-            //throw new System.NotImplementedException();
         }
 
         private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -494,6 +510,5 @@ namespace WindowsFormsApplication1
             addEmployeeForm.checkIfEditPressed(true);
         }
 
-        
     }
 }

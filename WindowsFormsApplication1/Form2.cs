@@ -220,7 +220,7 @@ namespace WindowsFormsApplication1
             UserNameLabel.Location = new System.Drawing.Point(25, 135);
             usernameBox.Location = new System.Drawing.Point(93, 132);
             EmployeePasswordLabel.Location = new System.Drawing.Point(25, 162);
-            textBox1.Location = new System.Drawing.Point(93, 159);
+            passBox.Location = new System.Drawing.Point(93, 159);
             criticalBox.Location = new System.Drawing.Point(93, 240);
             departmentBox.Location = new System.Drawing.Point(93, 185);
             deparmentLabel.Location = new System.Drawing.Point(25, 188);
@@ -233,6 +233,10 @@ namespace WindowsFormsApplication1
 
         public void checkIfAddPressed(bool editStatus)
         {
+            firstName.Text = "";
+            lastName.Text = "";
+            usernameBox.Text = "";
+            passBox.Text = "";
             editButton = editStatus;
             EmployeefName.Location = new System.Drawing.Point(25, 53);
             EmployeelName.Location = new System.Drawing.Point(25, 76);
@@ -241,7 +245,7 @@ namespace WindowsFormsApplication1
             UserNameLabel.Location = new System.Drawing.Point(25, 105);
             usernameBox.Location = new System.Drawing.Point(93, 102);
             EmployeePasswordLabel.Location = new System.Drawing.Point(25, 132);
-            textBox1.Location = new System.Drawing.Point(93, 129);
+            passBox.Location = new System.Drawing.Point(93, 129);
             criticalBox.Location = new System.Drawing.Point(93, 210);
             departmentBox.Location = new System.Drawing.Point(93, 155);
             deparmentLabel.Location = new System.Drawing.Point(25, 158);
@@ -254,7 +258,103 @@ namespace WindowsFormsApplication1
 
         private void empChoiceBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string value = ((KeyValuePair<string, string>)empChoiceBox.SelectedItem).Value;
 
+            addEmployeeBox.Checked = false;
+            addEmployeeBox.Enabled = false;
+            editEmp.Checked = false;
+            editEmp.Enabled = false;
+            canChangePerm.Checked = false;
+            canChangePerm.Enabled = false;
+
+            MySqlConnection conn = new MySqlConnection(connString);
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = "SELECT fName, lName, jobTitle, username, password, deptID FROM Employee WHERE ID = @empID";
+                cmd.Parameters.AddWithValue("@empID", value);
+                MySqlDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    firstName.Text = reader["fName"].ToString();
+                    lastName.Text = reader["lName"].ToString();
+                    usernameBox.Text = reader["username"].ToString();
+                    passBox.Text = reader["password"].ToString();
+                    jobTitleBox.SelectedValue = reader["jobTitle"].ToString();
+                    departmentBox.SelectedValue = reader["deptID"].ToString();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                //Console.WriteLine(ex.Message);
+
+                switch (ex.Number)
+                {
+                    case 1042:
+                        MessageBox.Show("Unable to Connect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    case 0:
+                        MessageBox.Show("Access Denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            try
+            {
+                conn.Open();
+                MySqlCommand cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT permID FROM PermAssignments WHERE empID = @empID";
+                cmd.Parameters.AddWithValue("@empID", value);
+                MySqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    switch(reader["permID"].ToString()){
+                        case "1":
+                            addEmployeeBox.Checked = true;
+                            break;
+                        case "3":
+                            editEmp.Checked = true;
+                            break;
+                        case "4":
+                            canChangePerm.Checked = true;
+                            editEmp.Enabled = true;
+                            addEmployeeBox.Enabled = true;
+                            break;
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                //Console.WriteLine(ex.Message);
+
+                switch (ex.Number)
+                {
+                    case 1042:
+                        MessageBox.Show("Unable to Connect", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    case 0:
+                        MessageBox.Show("Access Denied", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+           
         }
 
         

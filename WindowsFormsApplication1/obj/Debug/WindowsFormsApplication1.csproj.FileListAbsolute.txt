@@ -23,8 +23,8 @@ C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsAppl
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\bin\Debug\WindowsFormsApplication1.pdb
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\bin\Debug\MySql.Data.dll
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csprojResolveAssemblyReference.cache
-C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Properties.Resources.resources
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.csproj.GenerateResource.Cache
 F:\Google Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form2.resources
 C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form2.resources
+C:\Users\Ro\Desktop\Drive\Spring2014\CodeForCap\CapstoneProject\WindowsFormsApplication1\obj\Debug\WindowsFormsApplication1.Form1.resources

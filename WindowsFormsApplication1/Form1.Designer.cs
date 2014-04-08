@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.loginLabel = new System.Windows.Forms.Label();
             this.loginUserName = new System.Windows.Forms.TextBox();
             this.loginPassword = new System.Windows.Forms.TextBox();
@@ -36,6 +37,7 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.managerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.scheduleGrid = new System.Windows.Forms.TableLayoutPanel();
             this.Monday = new System.Windows.Forms.Label();
             this.Tuesday = new System.Windows.Forms.Label();
@@ -48,7 +50,7 @@
             this.passLabel = new System.Windows.Forms.Label();
             this.overallPanel = new System.Windows.Forms.Panel();
             this.dayLabels = new System.Windows.Forms.TableLayoutPanel();
-            this.editEmployeeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.popUpInfo = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.dayLabels.SuspendLayout();
             this.SuspendLayout();
@@ -121,9 +123,16 @@
             // addEmployeeToolStripMenuItem
             // 
             this.addEmployeeToolStripMenuItem.Name = "addEmployeeToolStripMenuItem";
-            this.addEmployeeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addEmployeeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.addEmployeeToolStripMenuItem.Text = "Add Employee";
             this.addEmployeeToolStripMenuItem.Click += new System.EventHandler(this.addEmployeeToolStripMenuItem_Click);
+            // 
+            // editEmployeeToolStripMenuItem
+            // 
+            this.editEmployeeToolStripMenuItem.Name = "editEmployeeToolStripMenuItem";
+            this.editEmployeeToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.editEmployeeToolStripMenuItem.Text = "Edit Employee";
+            this.editEmployeeToolStripMenuItem.Click += new System.EventHandler(this.editEmployeeToolStripMenuItem_Click);
             // 
             // scheduleGrid
             // 
@@ -316,12 +325,12 @@
             this.dayLabels.Size = new System.Drawing.Size(354, 22);
             this.dayLabels.TabIndex = 0;
             // 
-            // editEmployeeToolStripMenuItem
+            // popUpInfo
             // 
-            this.editEmployeeToolStripMenuItem.Name = "editEmployeeToolStripMenuItem";
-            this.editEmployeeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.editEmployeeToolStripMenuItem.Text = "Edit Employee";
-            this.editEmployeeToolStripMenuItem.Click += new System.EventHandler(this.editEmployeeToolStripMenuItem_Click);
+            this.popUpInfo.AutomaticDelay = 10;
+            this.popUpInfo.AutoPopDelay = 100000;
+            this.popUpInfo.InitialDelay = 10;
+            this.popUpInfo.ReshowDelay = 2;
             // 
             // Form1
             // 
@@ -376,7 +385,8 @@
         private System.Windows.Forms.TableLayoutPanel dayLabels;
         private System.Windows.Forms.ToolStripMenuItem managerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addEmployeeToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem editEmployeeToolStripMenuItem; 
+        private System.Windows.Forms.ToolStripMenuItem editEmployeeToolStripMenuItem;
+        private System.Windows.Forms.ToolTip popUpInfo; 
 
 
     }
