@@ -23,6 +23,8 @@ namespace WindowsFormsApplication1
         private const string ENCRYPTION_KEY = "ENmtH6kEeV1.I";
         //Hello World is encryption key string
 
+        private bool hidePanel = false;
+
         private readonly static byte[] SALT = Encoding.ASCII.GetBytes(ENCRYPTION_KEY);
         private readonly byte[] key;
         private readonly byte[] iv;
@@ -38,9 +40,13 @@ namespace WindowsFormsApplication1
 
             InitializeComponent();
             dayLabels.Visible = false;
+            popUpPanel.Visible = false;
             createEmployeeList();
             createScheduleGrid();
             labelColor = Color.White;
+            loginUserName.Text = "rbrunner";
+            loginPassword.Text = "science";
+
         }
 
         private void setLoginBool(bool loginStatus)
@@ -260,6 +266,7 @@ namespace WindowsFormsApplication1
                     cellLabel.DragLeave += new EventHandler(scheduleGrid_DragLeave);
                     cellLabel.MouseDown += new MouseEventHandler(labelClick);
                     cellLabel.MouseHover += new EventHandler(label_OnHover);
+                    cellLabel.MouseEnter += new EventHandler(label_Enter_HidePanel);
                     listCounter++;
                 }
             }
@@ -274,15 +281,25 @@ namespace WindowsFormsApplication1
             menuStrip1.Visible = false;
         }
 
+        private void label_Enter_HidePanel(object sender, EventArgs e)
+        {
+            if (hidePanel)
+            {
+                popUpPanel.Visible = false;
+                hidePanel = false;
+            }
+            
+        }
+
         private void label_OnHover(object sender, EventArgs e)
         {
             labelWithValue control = (labelWithValue)sender;
-            popUpInfo.SetToolTip(control, control.getEmployeeList());
-
+            popUpInfo.SetToolTip(control, control.getEmployeeFullList());
         }
 
         private void Form1_SizeChanged(object sender, System.EventArgs e)
         {
+            popUpPanel.Visible = false;
             Control control = (Control)sender;
             employeeList.Location = new Point(control.Width - 250, 50);
             employeeList.Height = control.Height - 100;
@@ -338,20 +355,90 @@ namespace WindowsFormsApplication1
 
         private void scheduleGrid_DragDrop(object sender, DragEventArgs e)
         {
+            int labelXLocation = 0;
+            int labelYLocation = 0;
+            int labelHeight = 20;
             labelWithValue currentLabel = (labelWithValue)sender;
             labelWithValue myLabel = (labelWithValue)e.Data.GetData(typeof(labelWithValue));
-            
-            if (myLabel.BackColor != Color.Cyan)
+            popUpPanel.Controls.Clear();
+
+            if (myLabel.BackColor != Color.Cyan && !currentLabel.searchList(myLabel.Text))
             {
-                currentLabel.addEmployeeToList(myLabel.Text);
-                currentLabel.BackColor = myLabel.BackColor;
-                currentLabel.Text = myLabel.Text;
-                Point position = new Point(scheduleGrid.GetCellPosition(currentLabel).Column, scheduleGrid.GetCellPosition(currentLabel).Row);
+                if (myLabel.getNumElementsInList() > 1)
+                {
+                    popUpPanel.Location = new Point(currentLabel.Location.X - 85, currentLabel.Location.Y + 50);
+                    for (int counter = 0; counter < myLabel.getNumElementsInList(); counter++)
+                    {
+                        
+                        labelWithValue tempLabel = new labelWithValue();
+                        tempLabel.Size = new System.Drawing.Size(97, labelHeight);
+                        tempLabel.Text = myLabel.getEmployeeList(counter);
+                        tempLabel.Location = new Point(labelXLocation, labelYLocation);
+                        tempLabel.BackColor = myLabel.getEmployeeColor(counter);
+                        labelYLocation += labelHeight;
+                        popUpPanel.Controls.Add(tempLabel);
+                        tempLabel.MouseLeave += new EventHandler(tempLabel_MouseLeave);
+                        tempLabel.MouseDoubleClick += new MouseEventHandler((senders, es) => tempLabel_MouseDoubleClick(senders, es, currentLabel));
+                    }
+                    popUpPanel.Visible = true;
+                    popUpPanel.HorizontalScroll.Enabled = false;
+                    popUpPanel.BringToFront();
+                }
+                else
+                {
+                    popUpPanel.Visible = false;
+                    currentLabel.addEmployeeToList(myLabel.Text, myLabel.BackColor);
+                    currentLabel.BackColor = myLabel.BackColor;
+                    if (currentLabel.getNumElementsInList() > 1)
+                    {
+                        currentLabel.Text = "...";
+                    }
+                    else
+                    {
+                        currentLabel.Text = currentLabel.getEmployeeList(0);
+                    }
+                    
+                }
             }
             if (currentLabel.BackColor == Color.Cyan)
             {
                 currentLabel.BackColor = getColor();
             }
+        }
+
+        void tempLabel_MouseLeave(object sender, EventArgs e)
+        {
+            hidePanel = true;
+            Point mousePos = Control.MousePosition;
+            Point ClientMousePos = popUpPanel.PointToClient(mousePos);
+            if (ClientMousePos.X > 100 || ClientMousePos.X < 0 || ClientMousePos.Y < 0 || ClientMousePos.Y > 100)
+            {
+                popUpPanel.Visible = false;
+            }
+        }
+
+        void popUpPanel_MouseLeave(object sender, EventArgs e)
+        {
+            popUpPanel.Visible = false;
+        }
+
+        void tempLabel_MouseDoubleClick(object sender, MouseEventArgs e, labelWithValue currentLabel)
+        {
+            labelWithValue control = (labelWithValue)sender;
+            if (!currentLabel.searchList(control.Text))
+            {
+                currentLabel.addEmployeeToList(control.Text, control.BackColor);
+                currentLabel.BackColor = control.BackColor;
+                if (currentLabel.getNumElementsInList() > 1)
+                {
+                    currentLabel.Text = "...";
+                }
+                else
+                {
+                    currentLabel.Text = currentLabel.getEmployeeList(0);
+                }
+            }
+            popUpPanel.Visible = false;
         }
 
         private void scheduleGrid_DragLeave(object sender, EventArgs e)
@@ -508,6 +595,15 @@ namespace WindowsFormsApplication1
         {
             addEmployeeForm.Show();
             addEmployeeForm.checkIfEditPressed(true);
+        }
+
+        private void scheduleGrid_MouseEnter(object sender, EventArgs e)
+        {
+            if (hidePanel)
+            {
+                popUpPanel.Visible = false;
+                hidePanel = false;
+            }
         }
 
     }

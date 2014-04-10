@@ -51,6 +51,7 @@
             this.overallPanel = new System.Windows.Forms.Panel();
             this.dayLabels = new System.Windows.Forms.TableLayoutPanel();
             this.popUpInfo = new System.Windows.Forms.ToolTip(this.components);
+            this.popUpPanel = new WindowsFormsApplication1.OverRidePanel();
             this.menuStrip1.SuspendLayout();
             this.dayLabels.SuspendLayout();
             this.SuspendLayout();
@@ -201,6 +202,7 @@
             this.scheduleGrid.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.scheduleGrid.Size = new System.Drawing.Size(445, 339);
             this.scheduleGrid.TabIndex = 0;
+            this.scheduleGrid.MouseEnter += new System.EventHandler(this.scheduleGrid_MouseEnter);
             // 
             // Monday
             // 
@@ -332,6 +334,16 @@
             this.popUpInfo.InitialDelay = 10;
             this.popUpInfo.ReshowDelay = 2;
             // 
+            // popUpPanel
+            // 
+            this.popUpPanel.AutoScroll = true;
+            this.popUpPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.popUpPanel.Location = new System.Drawing.Point(0, 0);
+            this.popUpPanel.Name = "popUpPanel";
+            this.popUpPanel.Size = new System.Drawing.Size(100, 100);
+            this.popUpPanel.TabIndex = 0;
+            this.popUpPanel.MouseLeave += new System.EventHandler(this.popUpPanel_MouseLeave);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +359,7 @@
             this.Controls.Add(this.loginButton);
             this.Controls.Add(this.userLabel);
             this.Controls.Add(this.passLabel);
+            this.Controls.Add(this.popUpPanel);
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(720, 430);
             this.Name = "Form1";
@@ -386,7 +399,8 @@
         private System.Windows.Forms.ToolStripMenuItem managerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem addEmployeeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editEmployeeToolStripMenuItem;
-        private System.Windows.Forms.ToolTip popUpInfo; 
+        private System.Windows.Forms.ToolTip popUpInfo;
+        private OverRidePanel popUpPanel; 
 
 
     }

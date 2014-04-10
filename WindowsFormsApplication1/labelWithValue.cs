@@ -14,9 +14,20 @@ namespace WindowsFormsApplication1
     {
         private int empID;
         private List<string> empList = new List<string>();
+        private List<Color> colorList = new List<Color>();
         public labelWithValue()
         {
             InitializeComponent();
+        }
+
+        public int lastIndexOfEmployeeList()
+        {
+            return empList.Count - 1;
+        }
+
+        public int lastIndexOfColorList()
+        {
+            return colorList.Count - 1;
         }
 
         public void setEmpID(int ID)
@@ -29,12 +40,23 @@ namespace WindowsFormsApplication1
             return empID;
         }
 
-        public void addEmployeeToList(string empName)
+        public void addEmployeeToList(string empName, Color labelColor)
         {
             empList.Add(empName);
+            colorList.Add(labelColor);
         }
 
-        public string getEmployeeList()
+        public string getEmployeeList(int index)
+        {
+            return empList[index];
+        }
+
+        public Color getEmployeeColor(int index)
+        {
+            return colorList[index];
+        }
+
+        public string getEmployeeFullList()
         {
             string fullList = "";
             foreach (string item in empList)
@@ -43,6 +65,24 @@ namespace WindowsFormsApplication1
             }
 
             return fullList;
+        }
+
+        public bool searchList(string empName)
+        {
+            string result = empList.Find(item => item == empName);
+            if (result != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public int getNumElementsInList()
+        {
+            return empList.Count;
         }
 
         protected override void OnPaint(PaintEventArgs pe)
